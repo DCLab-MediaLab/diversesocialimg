@@ -8,7 +8,7 @@ from sklearn import metrics
 groupid = sys.argv[1]
 groupname = sys.argv[2]
 
-postfixes = ["CM", "CM3x3"]
+postfixes = ["CM", "CM3x3", "CN", "CN3x3", "CSD", "GLRLM", "GLRLM3x3", "HOG", "LBP", "LBP3x3"]
 
 data = None
 for p in postfixes:
