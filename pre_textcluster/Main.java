@@ -303,6 +303,7 @@ public class Main {
 							bw.write(entrym.getKey()+";"+l.getKey()+";"+l.getValue()+"\n");
 							bw2.write(entrym.getKey()+";"+l.getKey()+";"+l.getValue()+"\n");
 						}
+				bw2.close();
 			}
 			System.out.println("\nResult files in project dir.("+endset.size()+" files)\nAll result files are in one file: "+outfile);
 		}
@@ -311,7 +312,6 @@ public class Main {
 		} finally {
 			try {
 				if (bw != null)bw.close();
-				if (bw2!= null)bw2.close();
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
