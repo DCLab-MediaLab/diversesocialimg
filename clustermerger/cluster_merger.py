@@ -27,7 +27,7 @@ clust_num_dict = dict()
 # the new cluster id is the fields clust_id_file1 and clust_id_file2 together
 # the new cluster ids are converted into numbers
 for ix, row in merged.iterrows():
-    new_clust = row[0] + "_" + row[1]
+    new_clust = str(row[0]) + "_" + str(row[1])
     key = (ix[0], new_clust)
 
     if key in clust_id_dict:
