@@ -20,7 +20,7 @@ import com.rapidminer.tools.XMLException;
 public class Rapidminer {
 	public static void main(String[] args) {
 
-		File cluster =new FIle (args[0]); //Cluster.rmp file
+		File cluster =new File (args[0]); //Cluster.rmp file
 		File input_folder= new File(args[1]);// input csv folder
 		File output_folder= new File(args[2]);	//ouput folder
 		output_folder.mkdir();
