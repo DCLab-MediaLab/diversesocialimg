@@ -45,7 +45,6 @@ public class Rapidminer {
 						Operator setrole = process.getOperator("Set Role");
 						setrole.setParameter(ChangeAttributeRole.PARAMETER_NAME, "loc_id");
 						setrole.setParameter(ChangeAttributeRole.PARAMETER_TARGET_ROLE, "label");
-						setrole.setParameter(ChangeAttributeRole.PARAMETER_TARGET_ROLE, "label");
 						Operator setrole2 = process.getOperator("Set Role (2)");
 						setrole2.setParameter(ChangeAttributeRole.PARAMETER_NAME, "img_id");
 						setrole2.setParameter(ChangeAttributeRole.PARAMETER_TARGET_ROLE, "id");
@@ -54,7 +53,6 @@ public class Rapidminer {
 						IOContainer ioResult = process.run();
 						ExampleSet resultSet1 = (ExampleSet)ioResult.getElementAt(0);
 						System.out.println(resultSet1.toString());
-
 
 						Iterator<Attribute> attributes = resultSet1.getAttributes().allAttributes();
 						while(attributes.hasNext())
