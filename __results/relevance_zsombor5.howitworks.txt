@@ -1,0 +1,2 @@
+Relevance:
+  (1-0.02*sqrt(rank))*max(0.1,userCred["visualScore"])*max(0.1,userCred["tagSpecificity"])
