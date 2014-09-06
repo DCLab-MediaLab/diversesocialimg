@@ -12,17 +12,15 @@ public class Main {
 	 */
 	public static int numberofElement = 30;					//hány N elemre nézze az átlagos relevancia átlagot
 	public static int filesnumber = 30;						//mappában található fájlok száma (helyszín)
-	private static List<ArrayList> relevance_qList = new ArrayList<ArrayList>();
+	//private List<double[]> relevance_qList = new ArrayList<double[]>();
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		File input_folder_xml = null;
 		File input_folder_txt = null;
 		File output_folder = null;
+		ElementRelevance e = new ElementRelevance();
 		int n = 30;													//itt N elem
-		/*String filetxt1 = "D://Pic/acropolis_athens rGT.txt";
-		String filetxt2 = "D://Pic/cabrillo rGT.txt";
-		String filexml1 = "D://Pic/acropolis_athens.xml";
-		String filexml2 = "D://Pic/cabrillo.xml";*/
+		
 		try {
 			
 			input_folder_xml= new File("D://xml");
@@ -35,7 +33,7 @@ public class Main {
 			for (int i = 0; i < files.length; i++) {
 				if (files[i].isFile()) {
 					filenames_xml[i]="D://xml/" +files[i].getName();
-					System.out.println("File " + files[i].getName());
+					//System.out.println("File " + files[i].getName());
 				} else if (files[i].isDirectory()) {
 					System.out.println("Directory " + files[i].getName());
 				}
@@ -46,40 +44,57 @@ public class Main {
 			for (int i = 0; i < files2.length; i++) {
 				if (files2[i].isFile()) {
 					filenames_txt[i]="D://gt/rGT/"+files2[i].getName();
-					System.out.println("File " + files2[i].getName());
+					//System.out.println("File " + files2[i].getName());
 				} else if (files2[i].isDirectory()) {
 					System.out.println("Directory " + files2[i].getName());
 				}
 			}
+			List<String> val = new ArrayList<String>();
+			List<double[]> r_queue = new ArrayList<double[]>();
+			
+			double[]relevance_v= new double[filesnumber];
+			double[] array=new double[numberofElement];
+			double[] array_toA=new double[numberofElement];
+			
 			for(int index=0; index<filesnumber; index++){
-				ElementRelevance.readXml(filenames_xml[index]);
-				ElementRelevance.searchId(filenames_txt[index]);
-				ElementRelevance.allRelevance(index);
-				//relevance_qList.add((ArrayList) ElementRelevance.Position());
-			}
-	
-			//ElementRelevance.Position();
-			//System.out.println("szia");
-			Average b = new Average();
-			List<double[]>list = ElementRelevance.Position();
-			double[] t = new double[n];
-			int n_count = 0;
-			while(n_count!=n){
-					//list.add(ElementRelevance.Position());
-					for(int idx=0; idx<list.size(); idx++){
-						//System.out.println(b.averageQueue((double[]) relevance_qList.get(i).get(idx),numberofElement)); //itt N elem
-						t[n_count]=b.averageQueue((double[]) list.get(idx),numberofElement);			//itt N elem
-					}
+				//System.out.println(filenames_xml[index]);
 				
-				n_count++;
-		
-			//}
-			GenerateCsv.generateCsvFile("D://csvF.csv", t);
+				val=e.readXml(filenames_xml[index]);
+				relevance_v=e.searchId(filenames_txt[index], val);
+				r_queue.add(relevance_v);
+				
+				
+				}
+			
+			
+			for(int index=0; index<filesnumber; index++){
+				
+				double szum= 0;
+				//System.out.println("size: "+r_queue.size());
+					for(int k=0; k<r_queue.size(); k++){
+						for(int l=0; l<r_queue.get(k).length; l++){
+							
+							if(l==index){
+								
+								array_toA[index]=(Double) r_queue.get(k)[l];
+								//System.out.println("Rel_nr: "+l+".dik eleme a" +k+".dik sorban: "+array_toA[index]);
+								szum=szum+array_toA[index];
+							}
+						}
+					}
+					//System.out.println("szum: "+ szum);
+					
+					array[index]=szum/numberofElement;
+					//System.out.println("átlag:"+array[index]);
 			}
+			
+			
+			GenerateCsv.generateCsvFile("D://csvF.csv", array);
 
-		}catch(Exception e) {
-			e.printStackTrace();
+		}catch(Exception ex) {
+			ex.printStackTrace();
 		}
-	}
 	
+	}
 }
+	

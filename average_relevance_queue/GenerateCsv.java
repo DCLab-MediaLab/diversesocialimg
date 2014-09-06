@@ -3,6 +3,7 @@ import java.io.IOException;
 
 
 public class GenerateCsv {
+	public static int size= 30; //Ahány elemig kell számolni a relevaciák átlagát
 	public static void generateCsvFile(String sFileName, double[] average)
 	   {
 		try
@@ -10,9 +11,10 @@ public class GenerateCsv {
 		    FileWriter writer = new FileWriter(sFileName);
 	 
 		    writer.append("AverageQueue;");
-		    for(int i=0; i<average.length; i++){
+		    for(int i=0; i<size; i++){
 		    	Double s1 = (Double)average[i];
 		    	String s = s1.toString(s1);
+		    	writer.append("\n");
 		    	writer.append(s);
 		    	writer.append(";");
 		    }

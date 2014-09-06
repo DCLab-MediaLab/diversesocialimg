@@ -28,15 +28,17 @@ import org.xml.sax.InputSource;
 
 public class ElementRelevance {
 	
-	public static int n_element=30;												//itt N elem
-	private static double[] rToAverage = new double[n_element];
-	private static List<Object> values=new ArrayList<Object>();
-	private static List<Double> relevance = new ArrayList<Double>();
-	public static List<double[]> relevance_nposition = new ArrayList<double[]>();
-	private static List<ArrayList> relevance_q = new ArrayList<ArrayList>();
-	public static void readXml(String filename){
-		
+	public int n_element=30;												//itt N elem
+	private double[] rToAverage = new double[n_element];
+	//public List<Object> value=new ArrayList<Object>();
+	//public List<String> values=new ArrayList<String>();
+	public double[] relevance = new double[30];
+	public List<double[]> relevance_nposition = new ArrayList<double[]>();
+	public List<double[]> relevance_q = new ArrayList<double[]>();
+	public List<String> readXml(String filename){
+		List<String> values=new ArrayList<String>();
 		try{
+			
 			File fXmlFile = new File(filename);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -44,7 +46,7 @@ public class ElementRelevance {
 			doc.getDocumentElement().normalize();
 			NodeList nList = doc.getElementsByTagName("photos");
 			//System.out.println("length: " + nList.getLength());
-            
+			
 			Element docEl = doc.getDocumentElement();       
 		    Node childNode = docEl.getFirstChild();     
 		    while( childNode.getNextSibling()!=null){          
@@ -55,87 +57,69 @@ public class ElementRelevance {
 		            //System.out.println("NODE num:-" + childElement.getAttribute("rank"));
 		            values.add(childElement.getAttribute("id"));
 		            
-		        }       
+		        }  
+		        
 		    }
-		
+		   
 		}catch (Exception e) {
 			e.printStackTrace();
 	    }
-		
+		return values;
 	}
 	
-	public static void readTxt(String xml_id, String filename) throws IOException{
+	public double readTxt(String xml_id, String filename, int n_e) throws IOException{
 		FileReader readerFile = new FileReader(filename);
 		BufferedReader buffer = new BufferedReader(readerFile);
 		
 		//System.out.println("size: " + values.size());
-		Iterator<Object> it=values.iterator();
+		//Iterator<Object> it=values.iterator();
 		
 		int count=0;
 			while(true){
 				String line = buffer.readLine();
 				if (line ==null) break;
 		    	if(xml_id.equals(Fv(line))){
-		    		//System.out.println(line.substring(line.length()-1));
+		    		//System.out.println("Fvline: "+ Fv(line));
+		    		//System.out.println("relevance_length: "+relevance.length);
+		    	
 		    		double fromString = Double.parseDouble(line.substring(line.length()-1));
-		    		relevance.add(fromString);
-		    		relevance.get(count);
-		    		count++;
+		    		//System.out.println("relevancia ertek, xml helyes sorrendben ez lesz: "+fromString);
+		    		relevance[n_e]=fromString;
+		    		//System.out.println("relevance: "+n_e+".dik érték"+relevance[n_e]);
+		    		
 		    	}
 		    	
-			}		
+			}
+			buffer.close();
+			return relevance[n_e];
+			
+	
 	}
-	public static String Fv(String line) throws IOException{
-		String id = line.substring(0, 9);
-    	if(id.substring(id.length()-1).equals(",")){
-    		id=id.substring(0,8);
-    		
-    	}
+	public String Fv(String line) throws IOException{
+		//System.out.println("line_hossz: "+line.length());
+		String id = line.substring(0, line.length()-2);
+   		
     	return id;
 	}
 	
-	public static void searchId(String filename) throws IOException{
-		Iterator<Object> it=values.iterator();
+	public double[] searchId(String filename, List<String> v) throws IOException{
+		//Iterator<Object> it=values.iterator();
 		int count = 0;
-		while(it.hasNext()){
+		double[] array= new double[30];
+		for(int idx=0; idx<30; idx++){
 			
-			String next_id = (String) it.next();
+			String next_id = v.get(idx);
 			//System.out.println("next: "+next_id);
-			readTxt(next_id, filename);
+			array[idx]=readTxt(next_id, filename, count);
 			//System.out.println("count: "+ count);
 			count++;
 			
 		}
+		return array;
 		//System.out.println("size_rel"+relevance.size());
 	}
 	
-	public static void allRelevance(int t){
-		relevance_q.add((ArrayList) relevance);
-	}
 	
-	public static List Position(){
-		//System.out.println("relevance_size: "+relevance_q.size());
-		int count=0;
-		//System.out.println("size_rel_q: "+ relevance_q.size());
-		while(count!=n_element){
-			for(int i =0; i<relevance_q.size(); i++){
-				//System.out.println("elem" + i+": "+relevance_q.get(i).get(count) +" "+count);
-				rToAverage[count]=(Double) relevance_q.get(i).get(count);
-				//System.out.println("count: "+ count);
-			}
-			relevance_nposition.add(rToAverage);
-			count++;
-		}
-		/*for(int idx=0; idx<relevance_nposition.size(); idx++){
-			System.out.println("rel_npos: "+relevance_nposition.get(idx) );
-		}*/
-		
-		return relevance_nposition;
-	}
-	
-	/*public static void toAverage(int i, int j){
-		rToAverage[i]=(Double) relevance_q.get(j).get(i);
-	}*/
 	
 	
 	
