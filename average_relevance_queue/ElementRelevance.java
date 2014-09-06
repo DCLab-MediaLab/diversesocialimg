@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.Set;
 import org.w3c.dom.*;
 import org.xml.sax.*;
-import com.sun.org.apache.xerces.*;
-import com.sun.org.apache.xerces.internal.parsers.*;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 import org.xml.sax.InputSource;

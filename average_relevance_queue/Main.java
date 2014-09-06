@@ -23,8 +23,8 @@ public class Main {
 		
 		try {
 			
-			input_folder_xml= new File("D://xml");
-			input_folder_txt= new File("D://gt/rGT");
+			input_folder_xml= new File("../dataset/devset/xml");
+			input_folder_txt= new File("../dataset/devset/gt/rGT");
 
 
 			File[] files = input_folder_xml.listFiles();
@@ -32,7 +32,7 @@ public class Main {
 			
 			for (int i = 0; i < files.length; i++) {
 				if (files[i].isFile()) {
-					filenames_xml[i]="D://xml/" +files[i].getName();
+					filenames_xml[i]="../dataset/devset/xml/" +files[i].getName();
 					//System.out.println("File " + files[i].getName());
 				} else if (files[i].isDirectory()) {
 					System.out.println("Directory " + files[i].getName());
@@ -43,7 +43,7 @@ public class Main {
 			
 			for (int i = 0; i < files2.length; i++) {
 				if (files2[i].isFile()) {
-					filenames_txt[i]="D://gt/rGT/"+files2[i].getName();
+					filenames_txt[i]="../dataset/devset/gt/rGT/"+files2[i].getName();
 					//System.out.println("File " + files2[i].getName());
 				} else if (files2[i].isDirectory()) {
 					System.out.println("Directory " + files2[i].getName());
@@ -89,7 +89,7 @@ public class Main {
 			}
 			
 			
-			GenerateCsv.generateCsvFile("D://csvF.csv", array);
+			GenerateCsv.generateCsvFile("csvF.csv", array);
 
 		}catch(Exception ex) {
 			ex.printStackTrace();
