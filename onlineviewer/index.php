@@ -47,6 +47,10 @@
     <body>
         <div id="panel_input" class="panel">
             <div class="subpanel">
+                Result txt:<br/>
+                <textarea id="text_result"><?php echo(file_get_contents("result-sample.txt")); ?></textarea>
+            </div>
+            <div class="subpanel">
                 Cluster input (locid;imgid;cluster):<br/>
                 <textarea id="text_clustercsv"><?php echo(file_get_contents("cluster-sample.csv")); ?></textarea>
             </div>
@@ -55,7 +59,8 @@
                 <input id="text_locid" type="text" value="31"/>
             </div>
             <div class="subpanel">
-                <button id="show_button">Show clusters</button>
+                <button id="show_button">Show clusters (result txt ignored)</button>
+                <button id="show_result">Show result (cluster file ignored)</button>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -75,6 +80,10 @@
                 $("#show_button").click(function(){
                     showclusters($("#text_clustercsv").val(),$("#text_locid").val());
                     });
+                    
+                $("#show_result").click(function(){
+                   showresult($("#text_result").val(),$("#text_locid").val());
+                });
             })
         </script>
     </body>

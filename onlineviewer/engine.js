@@ -36,3 +36,30 @@ function showclusters(clustercsv,locid){
         $("#panel_result").append(cdom);
     });
 }
+
+function showresult(clustercsv,locid){
+    $("#panel_result").html("");
+    var needed=[];
+    
+    $.each(clustercsv.split("\n"),function(i,line){
+        var items=line.split(" ");
+        
+        //only parse full lines
+        if (items.length!=6)
+            return;
+        
+        //filter other locations
+        if (items[0]!=locid)
+            return;
+        
+        needed.push(items);
+    });
+    
+    needed.sort(function(a, b) {
+        return a[3] - b[3];
+    });
+    
+    $.each(needed,function(id,item){
+        $("#panel_result").append(id+": <img src='pic.php?c="+locid+"&id="+item[2]+"'/>");
+    });
+}
