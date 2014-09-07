@@ -177,11 +177,11 @@ vector<Rec> reorder(vector<Rec>& data, int clustNum)
     order.push_back(*first);
     data.erase(first);
 
-    for (int i=0; i<50 && !data.empty(); ++i) {
+    for (int i=0; i<49 && !data.empty(); ++i) {
         int idx = 0;
         float max = -1;
         for (int j=0; j<data.size(); ++j) {
-            order.push_back(data[i]);
+            order.push_back(data[j]);
             float s = score(order, clustNum);
             if (max < s) {
                 max = s;
@@ -196,10 +196,53 @@ vector<Rec> reorder(vector<Rec>& data, int clustNum)
     return order;
 }
 
+vector<Rec> reorder2(vector<Rec>& data, int clustNum, map<int, int> clustSizeById, int minClustSize, int maxClustSize)
+{
+    vector<Rec> order;
+    auto first = max_element(data.begin(), data.end(), [](Rec& a, Rec& b) { return a.relevance < b.relevance; });
+    order.push_back(*first);
+    data.erase(first);
+
+    for (int i=0; i<49 && !data.empty(); ++i) {
+        int idx = 0;
+        float max = -1;
+        for (int j=0; j<data.size(); ++j) {
+            order.push_back(data[j]);
+            float s = score(order, clustNum);
+
+            float clustCred = (clustSizeById[data[j].clustId]-minClustSize)/(float)(maxClustSize-minClustSize);
+            clustCred += 1;
+            clustCred /= 2.0;
+            s *= clustCred;
+
+            if (max < s) {
+                max = s;
+                idx = j;
+            }
+            order.pop_back();
+        }
+        order.push_back(data[idx]);
+        data.erase(data.begin() + idx);
+    }
+    
+    return order;
+}
+
+
+map<int, int> getClustSizes(vector<Rec> data, set<int> clusterIds)
+{
+    map<int, int> clustSizeMap;
+    for (int id : clusterIds) {
+        clustSizeMap[id] = count_if(data.begin(), data.end(), [id](const Rec& r){ return r.clustId == id; });
+    }
+    return clustSizeMap;
+}
+
 int main(int argc, char *argv[])
 {
-    if (argc < 5) {
-        cerr << "Usage: " << argv[0] << " <clusters csv> <relevance csv> <number of cols in relevance file = {1, 2}> <run name>" << endl;
+    if (argc < 6) {
+        cerr << "Usage: " << argv[0] << " <clusters csv> <relevance csv> <number of cols in relevance file = {1, 2}> <run name> <using cluster credibility = {0, 1}>" << endl;
+        cerr << "Note: every csv file should have an empty last line!" << endl;
         return -1;
     }
 
@@ -207,6 +250,7 @@ int main(int argc, char *argv[])
     string relFilename(argv[2]);
     string relColNum(argv[3]);
     string runName(argv[4]);
+    string clustCredibility(argv[5]);
 
     RUN_NAME = runName;
 
@@ -233,7 +277,16 @@ int main(int argc, char *argv[])
     for (auto& p : clustSetByLoc) {
         long locId = p.first;
         int numClust = p.second.size();
-        vector<Rec> newOrder = reorder(dataByLoc[locId], numClust);
+        vector<Rec> newOrder;
+
+        if (clustCredibility == "1") {
+            map<int, int> clustSizeById = getClustSizes(dataByLoc[locId], p.second);
+            auto mm = minmax_element(clustSizeById.begin(), clustSizeById.end(),
+                                     [](const pair<int, int>& a, const pair<int, int>& b) { return a.second < b.second; });
+            newOrder = reorder2(dataByLoc[locId], numClust, clustSizeById, mm.first->second, mm.second->second);
+        } else {
+            newOrder = reorder(dataByLoc[locId], numClust);
+        }
         cout << newOrder;
     }
 
