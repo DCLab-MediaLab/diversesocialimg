@@ -1,0 +1,21 @@
+relevance_avg.csv
+    ?
+
+relevance_crediblity.csv
+    relevance purely based on user credibility
+
+relevance_crediblity_avg.csv
+    ?
+
+relevance_zsombor5.csv
+    combined relevance by rank and user credibility ((1-0.02*sqrt(rank))*max(0.1,userCred["visualScore"])*max(0.1,userCred["tagSpecificity"]))
+
+textclusters.csv
+    clustering based on text data
+
+visual_clusters.csv
+    clustering based on visual features
+
+vis_text_mixed_clusters.csv
+    clustering by mixing textclusters.csv and visual_clusters.csv
+    command to generate: python ../clustermerger/cluster_merger.py visual_clusters.csv textclusters.csv > vis_text_mixed_clusters.csv
