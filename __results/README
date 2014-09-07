@@ -1,11 +1,11 @@
 relevance_avg.csv
-    ?
+    average calculated from the devset
 
 relevance_crediblity.csv
     relevance purely based on user credibility
 
 relevance_crediblity_avg.csv
-    ?
+    (visualScore credibility for the user)*(relevance from "relevance_avg", if not set 0.5)
 
 relevance_zsombor5.csv
     combined relevance by rank and user credibility ((1-0.02*sqrt(rank))*max(0.1,userCred["visualScore"])*max(0.1,userCred["tagSpecificity"]))
