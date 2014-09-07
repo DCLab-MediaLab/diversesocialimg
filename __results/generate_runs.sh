@@ -1,16 +1,29 @@
 #!/bin/bash
 
+prefix="me14div_DCLab2014_"
+p="../gaboralgorithm/reorder"
+
 # run1: textclusters.csv relevance_zsombor5
-../gaboralgorithm/reorder textclusters.csv relevance_zsombor5.csv 2 run1_text_cluster_mixed_relevance 0 > run1_text_cluster_mixed_relevance
+runnum="run1"
+name="TextClusterMixedRelevance"
+$p textclusters.csv relevance_zsombor5.csv 2 ${runnum}_${name} 0 > $prefix${runnum}_${name}.txt
 
 # run2: visual_clusters.csv relevance_zsombor5.csv
-../gaboralgorithm/reorder visual_clusters.csv relevance_zsombor5.csv 2 run2_vis_cluster_mixed_relevance 0 > run2_vis_cluster_mixed_relevance
+runnum="run2"
+name="VisClusterMixedRelevance"
+$p visual_clusters.csv relevance_zsombor5.csv 2 ${runnum}_${name} 0 > $prefix${runnum}_${name}.txt
 
 # run3: vis_text_mixed_clusters.csv relevance_zsombor5.csv
-../gaboralgorithm/reorder vis_text_mixed_clusters.csv relevance_zsombor5.csv 2 run3_mixed_cluster_mixed_relevance 0 > run3_mixed_cluster_mixed_relevance
+runnum="run3"
+name="VisTextClusterMixedRelevance"
+$p vis_text_mixed_clusters.csv relevance_zsombor5.csv 2 ${runnum}_${name} 0 > $prefix${runnum}_${name}.txt
 
 # run4: vis_text_mixed_clusters.csv relevance_crediblity.csv
-../gaboralgorithm/reorder vis_text_mxixed_clusters.csv relevance_crediblity.csv 2 run4_mixed_cluster_cred_relevance 0 > run4_mixed_cluster_cred_relevance
+runnum="run4"
+name="VisTextClusterCredRelevance"
+$p vis_text_mixed_clusters.csv relevance_crediblity.csv 2 ${runnum}_${name} 0 > $prefix${runnum}_${name}.txt
 
 # run5: vis_text_mixed_clusters.csv relevance_zsombor5.csv
-../gaboralgorithm/reorder vis_text_mixed_clusters.csv relevance_zsombor5.csv 2 run5_mixed_cluster_mixed_relevance_clust_size 1 > run5_mixed_cluster_mixed_relevance_clust_size
+runnum="run5"
+name="VisTextClusterMixedRelevance2"
+$p vis_text_mixed_clusters.csv relevance_zsombor5.csv 2 ${runnum}_${name} 0 > $prefix${runnum}_${name}.txt
