@@ -3,20 +3,20 @@
 prefix="me14div_DCLab2014_"
 p="../gaboralgorithm/reorder"
 
-# run1: textclusters.csv relevance_zsombor5
+# run1: visual_clusters.csv relevance_allavg.csv
 runnum="run1"
-name="TextClusterMixedRelevance"
-$p textclusters.csv relevance_zsombor5.csv 2 ${runnum}_${name} 0 > $prefix${runnum}_${name}.txt
+name="VisClusterAvgRelevance"
+$p visual_clusters.csv relevance_allavg.csv 2 ${runnum}_${name} 0 > $prefix${runnum}_${name}.txt
 
-# run2: visual_clusters.csv relevance_zsombor5.csv
+# run2: textclusters.csv relevance_allavg.csv
 runnum="run2"
-name="VisClusterMixedRelevance"
-$p visual_clusters.csv relevance_zsombor5.csv 2 ${runnum}_${name} 0 > $prefix${runnum}_${name}.txt
+name="TextClusterAvgRelevance"
+$p textclusters.csv relevance_allavg.csv 2 ${runnum}_${name} 0 > $prefix${runnum}_${name}.txt
 
-# run3: vis_text_mixed_clusters.csv relevance_zsombor5.csv
+# run3: vis_text_mixed_clusters.csv relevance_allavg.csv
 runnum="run3"
-name="VisTextClusterMixedRelevance"
-$p vis_text_mixed_clusters.csv relevance_zsombor5.csv 2 ${runnum}_${name} 0 > $prefix${runnum}_${name}.txt
+name="VisTextClusterAvgRelevance"
+$p vis_text_mixed_clusters.csv relevance_allavg.csv 2 ${runnum}_${name} 0 > $prefix${runnum}_${name}.txt
 
 # run4: vis_text_mixed_clusters.csv relevance_crediblity.csv
 runnum="run4"
@@ -25,5 +25,5 @@ $p vis_text_mixed_clusters.csv relevance_crediblity.csv 2 ${runnum}_${name} 0 > 
 
 # run5: vis_text_mixed_clusters.csv relevance_zsombor5.csv
 runnum="run5"
-name="VisTextClusterMixedRelevance2"
+name="VisTextClusterMixedRelevance"
 $p vis_text_mixed_clusters.csv relevance_zsombor5.csv 2 ${runnum}_${name} 0 > $prefix${runnum}_${name}.txt
